@@ -7,10 +7,13 @@
  * Fecha de modificación: 15/10/2023
  * 
  * Descripción:
- * 
- * Notas:
+ * El programa implementa una cola de prioridad utilizando un árbol Heap. La clase PriorityQueue proporciona métodos para insertar
+ * eliminar y mostrar los elementos del arbol. Este programa crea un objeto de la clase PriorityQueue y lo utiliza para 
+ * insertar una serie de elementos, eliminarlos, y mostrar el estado del árbol despues de cada eliminación. 
  * 
  * Referencias:
+ * Binary Heap. (2014, November). GeeksforGeeks; GeeksforGeeks. https://www.geeksforgeeks.org/binary-heap/
+ * 
 */
 
 #include <iostream>
@@ -58,6 +61,8 @@ class PriorityQueue{
         void push(int value){
             heapArray[size] = value;
             size++;
+
+            //Acomodar el heap
             if(size > 1){
                 swiftUp((size/2)-1);
             }
@@ -76,15 +81,18 @@ class PriorityQueue{
         void pop(){
             //Checar si el heap está vacío
             if(empty()){
-                cout << "Heap is empty" << endl;
+                cout << "No hay datos a eliminar" << endl;
                 return;
             }
 
             //Intercambiar valores para eliminar lista
+            cout << "Eliminando dato..." << endl;
             int temp = heapArray[size-1];
             heapArray[size-1] = heapArray[0];
             heapArray[0] = temp;
             size--;
+
+            //Acomodar el heap
             if(size > 1){
                 swiftDown(0);
             }
@@ -174,6 +182,10 @@ class PriorityQueue{
         * @note Complejidad de espacio: O(1)
        */
         void top(){
+            if(empty()){
+                cout << "La lista está vacía" << endl;
+                return;
+            }
             cout << heapArray[0] << endl;
         }
 
@@ -188,6 +200,10 @@ class PriorityQueue{
          * @note Complejidad de espacio: O(1)
         */
         void print(){
+            if(empty()){
+                cout << "La lista no contiene elementos" << endl;
+                return;
+            }
             for(int i = 0; i < size; i++){
                 cout << heapArray[i] << " ";
             }
@@ -231,7 +247,7 @@ int main(){
     PriorityQueue<int>* heap = new PriorityQueue<int>();
 
     //Insertar elementos
-    int elementos[] = {5,7,8,9,10,12,5,14,11};
+    int elementos[] = {7,6,5,4,3,2,1};
     int size = sizeof(elementos)/sizeof(elementos[0]);
     for(int i = 0; i < size; i++){
         heap->push(elementos[i]);
@@ -239,28 +255,36 @@ int main(){
 
     //Mostrar Heap Completo
     cout << "Comienza Procesamiento de datos" << endl << "********************************************" << endl;
-    cout << "Heap : " << endl;
+    cout << "Heap Original: ";
     heap -> print();
     cout << endl;
-    //Eliminar y mostrar elementos
-    for(int i = 0; i < size; i++){
-        //Valor a salir
-        cout << "Paso " << i+1 << endl;
-        cout << "Valor a salir (TOP): ";
-        heap->top();
-        heap->pop();
-        //Mostrar Heap
-        cout << "Heap: ";
-        heap -> print();
-        cout << "Size: ";
-        heap -> getSize();
-        cout << "Empty: ";
-        if(heap -> empty()){
-            cout << "Yes" << endl;
-        }
-        else{
-            cout << "No" << endl;
-        }
-        cout << endl;
-    };
+    
+    //Checar el elementos salir
+    cout << "Valor a salir (TOP): ";
+    heap -> top();
+    cout << endl;
+
+    //Eliminar elemento
+    heap -> pop();
+    cout << endl;
+
+    //Mostrar Heap actualizado
+    cout << "Árbol actualizado: ";
+    heap -> print();
+    cout << endl;
+
+    //Mostrar el tañano del nuevo 
+    cout << "Tamaño del árbol actualizado: ";
+    heap -> getSize();
+    cout << endl;
+
+    //Mostar si la lista está vacía
+    cout << "¿El árbol está vacío? ";
+    if(heap -> empty()){
+        cout << "Sí" << endl;
+    }
+    else{
+        cout << "No" << endl;
+    }
+    cout << endl;
 } 
